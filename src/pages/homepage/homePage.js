@@ -1,28 +1,25 @@
 import React from 'react';
 import { navigate } from '@reach/router';
+import { connect } from 'react-redux';
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+import { setCurrentUser } from '../../redux/user/user.action';
 
 class HomePage extends React.Component {
-  state = {
-    currentUser: null,
-  }
   unsubscribeFromAuth = null;
 
   componentDidMount() {
+    const { setCurrentUser } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot(snapShot => {
-          console.log(snapShot.id)
-          this.setState({
-            currentUser: {
+          setCurrentUser({
               id: snapShot.id,
             ...snapShot.data()
-            }
           });
         })
       }else {
-        this.setState({ currentUser: userAuth});
+        setCurrentUser(userAuth);
       }
     });
   }
@@ -35,7 +32,7 @@ class HomePage extends React.Component {
   }
 
   renderSignOutBtnandItenararyLink = () => {
-    const { currentUser } = this.state;
+    const { currentUser } = this.props;
     console.log(currentUser);
     return (
       currentUser ?
@@ -62,4 +59,12 @@ class HomePage extends React.Component {
   }
 }
 
-export default HomePage;
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser,
+})
+
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
