@@ -1,6 +1,6 @@
 import React from 'react';
 import { navigate, Link } from '@reach/router';
-import { signInWithFacebook, getRedirectResult } from '../../firebase/firebase.utils';
+import { signInWithFacebook, getRedirectResult, signInWithEmail } from '../../firebase/firebase.utils';
 
 class SigninPage extends React.Component {
   constructor() {
@@ -33,6 +33,15 @@ class SigninPage extends React.Component {
     signInWithFacebook();
   }
 
+  handleSignin = () => {
+    const { email, password } = this.state;
+    signInWithEmail(email,password).then(user => {
+      navigate('/');
+    }).catch(e => {
+      console.log(e, e.email);
+    })
+  }
+
   render() {
     const { email, password } = this.state;
     return (
@@ -55,7 +64,7 @@ class SigninPage extends React.Component {
           value={password}
           onChange={this.handleChange}
         />
-        <button data-testid="signinBtn">Sign In</button>
+        <button data-testid="signinBtn" onClick={this.handleSignin}>Sign In</button>
         <button data-testid="signinFacebookBtn" onClick={this.handleSigninWithFb}>Sign in with Facebook</button>
         <div>
           Do not have account yet, <Link data-testid="signupLink" to="/signup">Sign up here...</Link>

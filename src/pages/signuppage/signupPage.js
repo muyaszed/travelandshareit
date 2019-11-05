@@ -1,6 +1,6 @@
 import React from 'react';
 import { navigate } from '@reach/router';
-import { signInWithEmail, createUserProfileDocument } from '../../firebase/firebase.utils';
+import { signUpWithEmail, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 class SignupPage extends React.Component {
    constructor() {
@@ -24,7 +24,7 @@ class SignupPage extends React.Component {
 
   handleSignup = () => {
     const { email, password, passwordConfirmation } = this.state;
-    signInWithEmail(email,password).then(user => {
+    signUpWithEmail(email,password).then(user => {
       
       createUserProfileDocument(user.user).then(() => {
         navigate('/');

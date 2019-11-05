@@ -54,6 +54,7 @@ fbProvider.setCustomParameters({ 'display': 'popup'});
 export const signInWithFacebook = () => auth.signInWithRedirect(fbProvider);
 export const getRedirectResult = () => auth.getRedirectResult();
 
-export const signInWithEmail = (email, password) => auth.createUserWithEmailAndPassword(email, password);
+export const signUpWithEmail = (email, password) => auth.createUserWithEmailAndPassword(email, password);
+export const signInWithEmail = (email, password) => auth.signInWithEmailAndPassword(email, password);
 
 export default firebase;
