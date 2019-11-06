@@ -4,6 +4,7 @@ import './App.css';
 import HomePage from './pages/homepage/homePage';
 import SigninPage from './pages/signinpage/signinPage';
 import SignupPage from './pages/signuppage/signupPage';
+import AddItenarary from './pages/additenarary/addItenarary';
 // import { auth } from './firebase/firebase.utils';
 
 class App extends React.Component {
@@ -14,6 +15,7 @@ class App extends React.Component {
         <HomePage path="/" />
         <SigninPage path="/signin" />
         <SignupPage path="/signup" />
+        <AddItenarary path="/additenarary" />
       </Router>
     );
   }

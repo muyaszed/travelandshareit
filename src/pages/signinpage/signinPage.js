@@ -1,5 +1,6 @@
 import React from 'react';
-import { navigate, Link } from '@reach/router';
+import { navigate, Link, Redirect } from '@reach/router';
+import { connect } from 'react-redux';
 import { signInWithFacebook, getRedirectResult, signInWithEmail } from '../../firebase/firebase.utils';
 
 class SigninPage extends React.Component {
@@ -42,9 +43,12 @@ class SigninPage extends React.Component {
     })
   }
 
-  render() {
+  renderSigninPage = () => {
     const { email, password } = this.state;
+    const { currentUser } = this.props;
     return (
+      currentUser ?
+      <Redirect to='/additenarary' /> :
       <div>
         <h1>Sign in</h1>
 
@@ -70,8 +74,18 @@ class SigninPage extends React.Component {
           Do not have account yet, <Link data-testid="signupLink" to="/signup">Sign up here...</Link>
         </div>
       </div>
+    )
+  }
+
+  render() {
+    return (
+      this.renderSigninPage()
     );
   }
 }
 
-export default SigninPage;
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser,
+})
+
+export default connect(mapStateToProps)(SigninPage);
