@@ -1,5 +1,5 @@
 import React from 'react';
-import { navigate } from '@reach/router';
+import { Link } from 'react-router-dom';
 import { signUpWithEmail, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 class SignupPage extends React.Component {
@@ -27,7 +27,7 @@ class SignupPage extends React.Component {
     signUpWithEmail(email,password).then(user => {
       
       createUserProfileDocument(user.user).then(() => {
-        navigate('/');
+        
       }).catch(e => {
         console.log(e);
       })

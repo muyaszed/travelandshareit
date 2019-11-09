@@ -1,18 +1,16 @@
 describe('Visit Hompage', function() {
-  before(function() {
-     cy.visit('http://localhost:3000')
-  })
+  
   describe('User is not authenticated', function() {
-    it('should see login button', function() {
-      cy.get('[data-testid="authLink"]').should('contain', 'Start sharing')
+    before(function() {
+      cy.visit('http://localhost:3000')
     })
-
-    it('should not see itenarary link', function() {
-       cy.get('[data-testid="itenararyLink"]').should('not.be.visible')
+    it('should see login button', function() {
+      cy.get('[data-testid="addItenararyLink"]').should('contain', 'Start sharing')
     })
   })
   describe('User is authenticated', function() {
     before(function() {
+      cy.visit('http://localhost:3000')
       cy.login()
     })
     it('should see logout button', function() {

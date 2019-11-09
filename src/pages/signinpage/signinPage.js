@@ -1,7 +1,9 @@
 import React from 'react';
-import { navigate, Link, Redirect } from '@reach/router';
-import { connect } from 'react-redux';
-import { signInWithFacebook, getRedirectResult, signInWithEmail } from '../../firebase/firebase.utils';
+import {  
+  Link,
+  Redirect
+} from 'react-router-dom';
+import { signInWithFacebook, auth, signInWithEmail } from '../../firebase/firebase.utils';
 
 class SigninPage extends React.Component {
   constructor() {
@@ -13,16 +15,16 @@ class SigninPage extends React.Component {
       password: '',
     }
   }
+  
+  
+
   componentDidMount() {
+    const { history } = this.props;
+    if (auth.currentUser) {
+      history.push("/");
+    }
     this.emailInput.current.focus();
-    getRedirectResult().then(result => {
-      console.log(result);
-      if(result.user) {
-        navigate('/');
-      }
-    }).catch(e => {
-      console.log(e);
-    })
+    
   }
 
   handleChange = (e) => {
@@ -31,27 +33,32 @@ class SigninPage extends React.Component {
   }
 
   handleSigninWithFb = () => {
-    signInWithFacebook();
+    signInWithFacebook().then(result => {
+      const { location, history } = this.props;
+      const { from } = location.state || {from: {pathname: '/'}};
+      history.replace(from)
+    }).catch(e => {
+      console.log(e);
+    });
+   
   }
 
   handleSignin = () => {
     const { email, password } = this.state;
     signInWithEmail(email,password).then(user => {
-      navigate('/');
+    const { location, history } = this.props;
+    const { from } = location.state || {from: {pathname: '/'}};
+      history.replace(from)
     }).catch(e => {
       console.log(e, e.email);
     })
   }
 
-  renderSigninPage = () => {
+  render() {
     const { email, password } = this.state;
-    const { currentUser } = this.props;
     return (
-      currentUser ?
-      <Redirect to='/additenarary' /> :
       <div>
         <h1>Sign in</h1>
-
         <input 
           autoFocus
           data-testid="signinEmail"
@@ -74,18 +81,8 @@ class SigninPage extends React.Component {
           Do not have account yet, <Link data-testid="signupLink" to="/signup">Sign up here...</Link>
         </div>
       </div>
-    )
-  }
-
-  render() {
-    return (
-      this.renderSigninPage()
     );
   }
 }
 
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser,
-})
-
-export default connect(mapStateToProps)(SigninPage);
+export default SigninPage;

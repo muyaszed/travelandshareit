@@ -1,25 +1,41 @@
 import React from 'react';
-import { Router } from '@reach/router';
+import {
+  Switch,
+  Route,
+} from 'react-router-dom';
 import './App.css';
 import HomePage from './pages/homepage/homePage';
 import SigninPage from './pages/signinpage/signinPage';
 import SignupPage from './pages/signuppage/signupPage';
 import AddItenarary from './pages/additenarary/addItenarary';
-// import { auth } from './firebase/firebase.utils';
+import ProtectedRoute from './container/protected.container';
+import { checkUserAuth } from './firebase/firebase.utils';
+
 
 class App extends React.Component {
+  unsubscribeFromAuth = null;
+  componentDidMount() {
+    
+    this.unsubscribeFromAuth = checkUserAuth('app');
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFromAuth()
+  }
 
   render() {
     return (
-      <Router>
-        <HomePage path="/" />
-        <SigninPage path="/signin" />
-        <SignupPage path="/signup" />
-        <AddItenarary path="/additenarary" />
-      </Router>
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/signin" component={SigninPage} />
+        <Route path="/signup" component={SignupPage} />
+        <ProtectedRoute path="/additenarary" component={AddItenarary} />
+      </Switch>
     );
   }
   
 }
+
+
 
 export default App;

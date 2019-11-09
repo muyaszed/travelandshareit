@@ -1,6 +1,8 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import store from '../redux/store';
+import { setCurrentUser } from '../redux/user/user.action';
 
 const config = {
   apiKey: "AIzaSyD5XLQH8A2mH2Ee0fxXuFjCmYtlqTs7fXg",
@@ -38,9 +40,33 @@ export const createUserProfileDocument = async (userAuth, additioalData) => {
 }
 
 firebase.initializeApp(config);
-
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
+
+export const checkUserAuth = (location="internal") => {
+  auth.onAuthStateChanged(async userAuth => {
+    console.log(location, 'Check user trigger', userAuth)
+    if (userAuth) {
+      const userRef = await createUserProfileDocument(userAuth);
+      userRef.onSnapshot(snapShot => {
+        store.dispatch(setCurrentUser({
+          id: snapShot.id,
+          ...snapShot.data()
+        }));
+      })
+    
+    }else {
+      store.dispatch(setCurrentUser(userAuth));
+      
+    }
+  });
+  
+};
+
+
+
+
+
 
 //Google auth setup
 // const provider = new firebase.auth.GoogleAuthProvider()
@@ -49,9 +75,9 @@ export const firestore = firebase.firestore();
 //Facebook auth setup
 const fbProvider = new firebase.auth.FacebookAuthProvider();
 // fbProvider.addScope('first_name, last_name');
-fbProvider.setCustomParameters({ 'display': 'popup'});
+// fbProvider.setCustomParameters({ 'display': 'popup'});
 
-export const signInWithFacebook = () => auth.signInWithRedirect(fbProvider);
+export const signInWithFacebook = () => auth.signInWithPopup(fbProvider);
 export const getRedirectResult = () => auth.getRedirectResult();
 
 export const signUpWithEmail = (email, password) => auth.createUserWithEmailAndPassword(email, password);

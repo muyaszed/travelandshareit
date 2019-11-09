@@ -1,35 +1,11 @@
 import React from 'react';
-import { navigate } from '@reach/router';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 import { setCurrentUser } from '../../redux/user/user.action';
+import { auth } from '../../firebase/firebase.utils';
+
 
 class HomePage extends React.Component {
-  unsubscribeFromAuth = null;
-
-  componentDidMount() {
-    const { setCurrentUser } = this.props;
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-              id: snapShot.id,
-            ...snapShot.data()
-          });
-        })
-      }else {
-        setCurrentUser(userAuth);
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFromAuth()
-  }
-  handleSignin = () => {
-    navigate('/signin');
-  }
 
   renderSignOutBtnandItenararyLink = () => {
     const { currentUser } = this.props;
@@ -50,9 +26,12 @@ class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <div data-testid="authLink" onClick={this.handleSignin}>
+        <Link data-testid="addItenararyLink" to="/additenarary">
           Start sharing
-        </div>
+        </Link>
+        <Link data-testid="" to="/signin">
+          Sign in
+        </Link>
         { this.renderSignOutBtnandItenararyLink() }
       </div>
     )
