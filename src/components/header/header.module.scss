@@ -1,0 +1,54 @@
+@import "../../styles/variables";
+
+.header {
+  position: relative;
+  height: 80px;
+  width: 100%;
+  z-index: 1;
+
+  &Black {
+    @extend .header;
+    background-color: black;
+    position: fixed;
+    margin-top: -80px;
+  }
+
+  .headerContainer {
+    display: flex;
+    max-width: 1140px;
+    margin: 0 auto;
+
+    .logo {
+      font-size: 2em;
+      color: #ffffff;
+      width: 20%;
+      font-weight: 800;
+      text-align: center;
+      margin: auto 0;
+      cursor: pointer;
+    }
+
+    .navbar {
+      display: flex;
+      height: 80px;
+      width: 60%;
+      color: #ffffff;
+      justify-content: flex-end;
+      .menu {
+        margin: auto 0;
+        display: flex;
+        .menuItem {
+          padding: 15px;
+          cursor: pointer;
+          &:hover {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+
+    .itenararyLink {
+      width: 20%;
+    }
+  }
+}

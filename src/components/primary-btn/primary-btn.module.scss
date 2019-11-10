@@ -1,0 +1,24 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.primeBtnContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+
+  .primaryBtn {
+    border: 1px solid #ffffff;
+    padding: 7px 28px;
+    color: #ffffff;
+    letter-spacing: 1px;
+    font-weight: 500;
+    &:hover {
+      color: $primary-color;
+      border: 1px solid $primary-color;
+    }
+    &:link {
+      text-decoration: none;
+    }
+  }
+}

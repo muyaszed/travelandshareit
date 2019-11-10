@@ -1,38 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setCurrentUser } from '../../redux/user/user.action';
-import { auth } from '../../firebase/firebase.utils';
-
+import styles from './homePage.module.scss';
 
 class HomePage extends React.Component {
-
-  renderSignOutBtnandItenararyLink = () => {
-    const { currentUser } = this.props;
-    console.log(currentUser);
-    return (
-      currentUser ?
-      <div>
-      <div data-testid="itenararyLink">
-        Explore Itenarary
-      </div> 
-      <div data-testid="signoutBtn" onClick={() => auth.signOut()}>
-        Sign Out
-      </div>
-      </div> :
-      null
-    )
-  }
   render() {
+    
     return (
       <div>
-        <Link data-testid="addItenararyLink" to="/additenarary">
-          Start sharing
-        </Link>
-        <Link data-testid="" to="/signin">
-          Sign in
-        </Link>
-        { this.renderSignOutBtnandItenararyLink() }
+        <div className={styles.bannerContent}>
+					<p>Share your exciting adventure, so others can have the same</p>
+					<h2>Travel & Share</h2>
+				</div>
       </div>
     )
   }

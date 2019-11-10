@@ -1,0 +1,9 @@
+@import "./styles/variables";
+
+.mainContainer {
+  position: absolute;
+  width: 100%;
+  height: 900px;
+  background: url("./images/home-banner.png") no-repeat center center;
+  font-family: $primary-font;
+}
