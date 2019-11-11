@@ -1,6 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { signUpWithEmail, createUserProfileDocument } from '../../firebase/firebase.utils';
+import Form from '../../components/form/form.component';
+import InputText from '../../components/inputText/inputText.component';
+import PrimaryBtn from '../../components/primary-btn/primary-btn.component';
+import styles from './signup.module.scss'
 
 class SignupPage extends React.Component {
    constructor() {
@@ -41,34 +44,48 @@ class SignupPage extends React.Component {
   render() {
     const { email, password, passwordConfirmation } = this.state;
     return (
-      <div>
-        <h1>Sign Up</h1>
-        <input
-          onChange={this.handleChange} 
+      <Form title="SIGN UP">
+        <InputText 
           autoFocus
+          placeHolder="Your email..."
           data-testid="signupEmail"
           type="email"
           value={email}
-          name="email"
+          onChange={this.handleChange}
           ref={this.emailInput}
         />
-        <input
-          onChange={this.handleChange} 
+        <InputText 
           data-testid="signupPassword"
+          placeHolder="Your password..."
           type="password"
           value={password}
-          name="password"
+          onChange={this.handleChange}
         />
-        <input
-          onChange={this.handleChange} 
+        <InputText 
           data-testid="signupPasswordConfirmation"
+          placeHolder="again...."
           type="password"
           value={passwordConfirmation}
-          name="passwordConfirmation"
+          onChange={this.handleChange}
         />
-        <button data-testid="signupBtn" onClick={this.handleSignup}>Sign In</button>
+        <div className={styles.signupBtnContainer}>
+          <PrimaryBtn 
+            title="SIGN UP"
+            testid="signupBtn"
+            onClick={this.handleSignup}
+          />
+        </div>
+        <div className={styles.signupNote}>
+          <p>Already have account</p>  
+          <PrimaryBtn 
+            title="Sign in here..."
+            type="Link"
+            testid="signinLink"
+            to="/signin"
+          />
+        </div>
         
-      </div>
+      </Form>
     )
   }
 }

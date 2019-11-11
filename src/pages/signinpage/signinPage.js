@@ -100,7 +100,6 @@ class SigninPage extends React.Component {
             type="Link"
             testid="signupLink"
             to="/signup"
-            onClick={this.handleSignin}
           />
         </div>
       </Form>
