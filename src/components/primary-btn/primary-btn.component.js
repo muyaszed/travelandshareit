@@ -2,12 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './primary-btn.module.scss';
 
-const PrimaryBtn = (props) => (
-  <div className={styles.primeBtnContainer}>
-    <Link data-testid="addItenararyLink" to="/additenarary" className={styles.primaryBtn} >
-      {props.title}
+const PrimaryBtn = ({ title, testid, to="", type, onClick }) => (
+  type === 'Link' ? 
+  
+    <Link data-testid={testid} to={to} className={styles.primaryBtnLink} >
+      {title}
     </Link>
-  </div>
+  :
+  
+    <button data-testid={testid} onClick={onClick} className={styles.primaryBtn}>{title}</button>
+  
 )
 
 export default PrimaryBtn;

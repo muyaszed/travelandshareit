@@ -4,6 +4,10 @@ import {
   Redirect
 } from 'react-router-dom';
 import { signInWithFacebook, auth, signInWithEmail } from '../../firebase/firebase.utils';
+import Form from '../../components/form/form.component';
+import InputText from '../../components/inputText/inputText.component';
+import PrimaryBtn from '../../components/primary-btn/primary-btn.component';
+import styles from './signin.module.scss';
 
 class SigninPage extends React.Component {
   constructor() {
@@ -56,31 +60,50 @@ class SigninPage extends React.Component {
 
   render() {
     const { email, password } = this.state;
+    console.log(this.emailInput);
     return (
-      <div>
-        <h1>Sign in</h1>
-        <input 
+      <Form title="SIGN IN">
+
+        <InputText 
           autoFocus
+          placeHolder="Your email..."
           data-testid="signinEmail"
           type="email"
-          name="email"
           value={email}
           onChange={this.handleChange}
           ref={this.emailInput}
         />
-        <input 
+        <InputText 
           data-testid="signinPassword"
+          placeHolder="Your password..."
           type="password"
-          name="password"
           value={password}
           onChange={this.handleChange}
         />
-        <button data-testid="signinBtn" onClick={this.handleSignin}>Sign In</button>
-        <button data-testid="signinFacebookBtn" onClick={this.handleSigninWithFb}>Sign in with Facebook</button>
-        <div>
-          Do not have account yet, <Link data-testid="signupLink" to="/signup">Sign up here...</Link>
+        <div className={styles.signinBtnContainer}>
+          <PrimaryBtn 
+            title="SIGN IN"
+            testid="signinBtn"
+            onClick={this.handleSignin}
+          />
+          <PrimaryBtn 
+            title="USE FACEBOOK"
+            testid="signinFacebookBtn"
+            onClick={this.handleSigninWithFb}
+          />
         </div>
-      </div>
+        <div className={styles.signinNote}>
+
+          <p>Do not have account yet</p>  
+          <PrimaryBtn 
+            title="Sign up here..."
+            type="Link"
+            testid="signupLink"
+            to="/signup"
+            onClick={this.handleSignin}
+          />
+        </div>
+      </Form>
     );
   }
 }

@@ -41,7 +41,7 @@ const Header = ({ currentUser, bgColor, history }) => {
             { renderSignOutBtnandItenararyLink(currentUser) }
         </div>
         <div className={styles.itenararyLink}>
-          <PrimaryBtn title="START SHARING"/>
+          <PrimaryBtn testid="addItenararyLink" title="START SHARING" to="/additenarary" type="Link"/>
         </div>
       </div>
     </div>
